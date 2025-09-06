@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Base Colors */
+    --background: 220 27% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 27% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 27% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 263 70% 65%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217 32% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 32% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 32% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 32% 17%;
+    --input: 217 32% 17%;
+    --ring: 263 70% 65%;
+
+    --radius: 0.75rem;
+
+    /* Emotion-based Colors */
+    --emotion-happy: 45 93% 58%;
+    --emotion-happy-bg: 45 93% 58% / 0.1;
+    --emotion-sad: 221 83% 53%;
+    --emotion-sad-bg: 221 83% 53% / 0.1;
+    --emotion-angry: 0 84% 60%;
+    --emotion-angry-bg: 0 84% 60% / 0.1;
+    --emotion-surprised: 280 89% 66%;
+    --emotion-surprised-bg: 280 89% 66% / 0.1;
+    --emotion-fear: 271 81% 56%;
+    --emotion-fear-bg: 271 81% 56% / 0.1;
+    --emotion-disgust: 84 81% 44%;
+    --emotion-disgust-bg: 84 81% 44% / 0.1;
+    --emotion-neutral: 215 20% 65%;
+    --emotion-neutral-bg: 215 20% 65% / 0.1;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(263 70% 65%), hsl(280 89% 66%));
+    --gradient-emotion: linear-gradient(135deg, hsl(var(--emotion-happy)), hsl(var(--emotion-surprised)));
+    --gradient-dark: linear-gradient(135deg, hsl(220 27% 6%), hsl(217 32% 17%));
+
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Shadows */
+    --shadow-emotion: 0 10px 40px -12px hsl(var(--primary) / 0.4);
+    --shadow-glow: 0 0 50px hsl(var(--primary) / 0.3);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222 84% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 5%;
+    --primary: 263 70% 65%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 263 70% 65%;
+    --gradient-dark: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 96%));
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground transition-all duration-500;
+    background: var(--gradient-dark);
+  }
+
+  .emotion-adaptive {
+    transition: var(--transition-smooth);
+  }
+
+  .emotion-happy { 
+    background: linear-gradient(135deg, hsl(var(--emotion-happy) / 0.2), hsl(var(--emotion-surprised) / 0.2));
+    border-color: hsl(var(--emotion-happy));
+  }
+  
+  .emotion-sad { 
+    background: linear-gradient(135deg, hsl(var(--emotion-sad) / 0.2), hsl(var(--emotion-neutral) / 0.2));
+    border-color: hsl(var(--emotion-sad));
+  }
+  
+  .emotion-angry { 
+    background: linear-gradient(135deg, hsl(var(--emotion-angry) / 0.2), hsl(var(--emotion-disgust) / 0.2));
+    border-color: hsl(var(--emotion-angry));
+  }
+  
+  .emotion-surprised { 
+    background: linear-gradient(135deg, hsl(var(--emotion-surprised) / 0.2), hsl(var(--emotion-happy) / 0.2));
+    border-color: hsl(var(--emotion-surprised));
+  }
+  
+  .emotion-fear { 
+    background: linear-gradient(135deg, hsl(var(--emotion-fear) / 0.2), hsl(var(--emotion-sad) / 0.2));
+    border-color: hsl(var(--emotion-fear));
+  }
+  
+  .emotion-disgust { 
+    background: linear-gradient(135deg, hsl(var(--emotion-disgust) / 0.2), hsl(var(--emotion-angry) / 0.2));
+    border-color: hsl(var(--emotion-disgust));
+  }
+  
+  .emotion-neutral { 
+    background: linear-gradient(135deg, hsl(var(--emotion-neutral) / 0.2), hsl(var(--primary) / 0.2));
+    border-color: hsl(var(--emotion-neutral));
+  }
+
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+}
