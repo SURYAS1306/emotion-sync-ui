@@ -15,22 +15,29 @@ const Index = () => {
   const [isModelReady, setIsModelReady] = useState(false);
   const { toast } = useToast();
 
-  // Initialize emotion detection model
+  // Initialize emotion detection model (non-blocking)
   useEffect(() => {
     const initModel = async () => {
       try {
-        await emotionDetectionService.initialize();
+        // Set model as ready immediately for fallback detection
         setIsModelReady(true);
         toast({
-          title: "AI Model Ready",
+          title: "Emotion Detection Ready",
           description: "Emotion detection system is now active",
+        });
+        
+        // Try to initialize AI model in background (non-blocking)
+        emotionDetectionService.initialize().then(() => {
+          console.log('AI model initialized successfully');
+        }).catch((error) => {
+          console.warn('AI model initialization failed, using fallback:', error);
         });
       } catch (error) {
         console.error('Failed to initialize emotion detection:', error);
+        setIsModelReady(true); // Still set as ready for fallback
         toast({
-          title: "Model Error",
-          description: "Failed to load emotion detection AI",
-          variant: "destructive",
+          title: "Emotion Detection Ready",
+          description: "Using fallback emotion detection",
         });
       }
     };

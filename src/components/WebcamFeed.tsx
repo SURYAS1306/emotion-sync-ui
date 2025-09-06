@@ -18,6 +18,17 @@ export const WebcamFeed = ({ onVideoReady, currentEmotion }: WebcamFeedProps) =>
   const startWebcam = async () => {
     setIsLoading(true);
     try {
+      // Check if we're on HTTPS or localhost
+      const isSecure = window.location.protocol === 'https:' || window.location.hostname === 'localhost';
+      if (!isSecure) {
+        throw new Error('Camera access requires HTTPS. Please use HTTPS or localhost.');
+      }
+
+      // Check if getUserMedia is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera not supported in this browser');
+      }
+
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: 'user',
@@ -37,11 +48,23 @@ export const WebcamFeed = ({ onVideoReady, currentEmotion }: WebcamFeedProps) =>
           description: "Emotion detection is now running",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error accessing webcam:', error);
+      let errorMessage = "Could not access your camera. Please check permissions.";
+      
+      if (error.name === 'NotAllowedError') {
+        errorMessage = "Camera permission denied. Please allow camera access and refresh the page.";
+      } else if (error.name === 'NotFoundError') {
+        errorMessage = "No camera found. Please connect a camera and try again.";
+      } else if (error.name === 'NotSupportedError') {
+        errorMessage = "Camera not supported. Please use a modern browser with HTTPS.";
+      } else if (error.message.includes('HTTPS')) {
+        errorMessage = "Camera requires HTTPS. Please use HTTPS or localhost.";
+      }
+      
       toast({
         title: "Camera Error",
-        description: "Could not access your camera. Please check permissions.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
